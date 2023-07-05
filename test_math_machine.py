@@ -21,14 +21,41 @@ def math_machine (n1, operator, n2):
         return 'Way too big for me to handle!'
     
 class Test_MathMachine:
-    test_non_int_input_for_n1
-    test_non_int_input_for_n2
-    test_addition_with_negative_result
-    test_addition_with_small_result
-    test_addition_with_medium_result
-    test_addition_with_large_result
-    test_multiplication_with_negative_result
-    test_multiplication_with_small_result
-    test_multiplication_with_medium_result
-    test_multiplication_with_large_result
-    test_invalid_operator
+    def test_non_int_input_for_n1(self):
+        with pytest.raises(Exception) as exc_info:
+            math_machine('hi', '+', 2)
+        assert 'Only ints are accepted!' in str(exc_info)
+
+    def test_non_int_input_for_n2(self):
+        with pytest.raises(Exception) as exc_info:
+            math_machine(2, '+', 'hi')
+        assert 'Only ints are accepted!' in str(exc_info)
+
+    def test_addition_with_negative_result(self):
+        assert 'A negative number. What does that mean?' in math_machine(-2, '+', -2)
+
+    def test_addition_with_small_result(self):
+        assert 'A small number. I can deal with that!' in math_machine(2, '+', 2)
+
+    def test_addition_with_medium_result(self):
+        assert 'A medium-sized number. OK' in math_machine(9, '+', 9)
+
+    def test_addition_with_large_result(self):
+        assert 'Way too big for me to handle!' in math_machine(14, '+', 14)
+
+    def test_multiplication_with_negative_result(self):
+        assert 'A negative number. What does that mean?' in math_machine(2, '*', -2)
+
+    def test_multiplication_with_small_result(self):
+        assert 'A small number. I can deal with that!' in math_machine(2, '*', 2)
+
+    def test_multiplication_with_medium_result(self):
+        assert 'A medium-sized number. OK' in math_machine(3, '*', 5)
+
+    def test_multiplication_with_large_result(self):
+        assert 'Way too big for me to handle!' in math_machine(5, '*', 5)
+
+    def test_invalid_operator(self):
+        with pytest.raises(Exception) as exc_info:
+            math_machine(2, '%', 2)
+        assert "Math Machine doesn't recognize" in str(exc_info)
