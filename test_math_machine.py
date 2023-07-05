@@ -22,8 +22,14 @@ def math_machine (n1, operator, n2):
     
 class Test_MathMachine:
     def test_non_int_input_for_n1(self):
+        with pytest.raises(Exception) as exc_info:
+            math_machine('hi', '+', 2)
+        assert 'Only ints are accepted!' in str(exc_info)
 
     def test_non_int_input_for_n2(self):
+        with pytest.raises(Exception) as exc_info:
+            math_machine(2, '+', 'hi')
+        assert 'Only ints are accepted!' in str(exc_info)
 
     def test_addition_with_negative_result(self):
         assert 'A negative number. What does that mean?' in math_machine(-2, '+', -2)
@@ -50,3 +56,6 @@ class Test_MathMachine:
         assert 'Way too big for me to handle!' in math_machine(5, '*', 5)
 
     def test_invalid_operator(self):
+        with pytest.raises(Exception) as exc_info:
+            math_machine(2, '%', 2)
+        assert "Math Machine doesn't recognize" in str(exc_info)
